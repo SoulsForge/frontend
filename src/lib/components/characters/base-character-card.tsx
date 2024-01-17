@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Card, CardBody, CardHeader, Image } from '@nextui-org/react';
 import IBaseCharacter from '@/lib/interfaces/characters/base-character.interface';
 
-const gamesLink = new Map<string, string>([['Elden Ring', 'elden-ring']]);
+const gamesLink = new Map<string, string>([['Elden Ring', 'er']]);
 
 export default function BaseCharacterCard({
                                             character,

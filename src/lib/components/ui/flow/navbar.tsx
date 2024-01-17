@@ -14,7 +14,7 @@ import { ChevronDown } from 'lucide-react';
 import Default from '@/lib/components/conditionals/default';
 import { usePathname } from 'next/navigation';
 import NextLink from 'next/link';
-import useAuth from '@/lib/hooks/useAuth';
+import useAuth from '@/lib/hooks/context/useAuth';
 import { useRouter } from 'next/router';
 
 const returnUrl: string[] = ['/', '/auth/register'];
@@ -88,16 +88,16 @@ export default function Navbar() {
                 </NavbarItem>
                 <DropdownMenu aria-label='Profile Actions' variant='flat'>
                   <DropdownItem
-                    // onClick={() => {
-                    //   router.push(`/profile/${user?.username}`);
-                    // }}
+                    onClick={async () => {
+                      await router.push(`/${user?.username}`);
+                    }}
                     key='profile'
                   >
                     My Profile
                   </DropdownItem>
                   <DropdownItem
-                    onClick={() => {
-                      router.push(`/settings`);
+                    onClick={async () => {
+                      await router.push(`/settings`);
                     }}
                     key='settings'
                     showDivider

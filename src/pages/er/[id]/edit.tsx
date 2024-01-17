@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import useAuth from '@/lib/hooks/useAuth';
+import useAuth from '@/lib/hooks/context/useAuth';
 import { useEffect, useState, useTransition } from 'react';
 import {
   EldenRingAttributesWithComponent,
   getAttributesWithComponents, getAttributesWithComponentsEdit
 } from '@/lib/utilities/characters/elden-ring/utilities';
 import { getCharacterById, saveCharacter } from '@/services/elden-ring-service';
-import Loading from '@/lib/components/conditionals/loader';
+import Loader from '@/lib/components/conditionals/loader';
 import IEldenRingCharacter from '@/lib/interfaces/characters/elden-ring/elden-ring-character.interface';
 import { Button, Divider } from '@nextui-org/react';
 import CharacterSectionContainer from '@/lib/components/characters/section-container';
@@ -84,7 +84,7 @@ export default function PageEdit() {
 
 
   return (
-    <Loading loaded={Boolean(character) && Boolean(attributes)}>
+    <Loader loaded={Boolean(character) && Boolean(attributes)}>
       <article className='h-full flex flex-col gap-2 mx-auto my-2 lg:w-3/4'>
         <div className='flex flex-row justify-between p-4'>
           <div className='flex flex-row justify-center items-center gap-3'>
@@ -262,6 +262,6 @@ export default function PageEdit() {
           </section>
         </section>
       </article>
-    </Loading>
+    </Loader>
   );
 }

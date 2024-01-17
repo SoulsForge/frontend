@@ -4,7 +4,7 @@ import { removeBearerToken, setBearerToken } from '@/services/fetch-client';
 import ISession from '@/lib/interfaces/user/session.interface';
 import { AuthContext } from '@/lib/contexts/auth/auth-context';
 import Loader from '@/lib/components/conditionals/loader';
-import { getCurrentUser } from '@/services/user-service';
+import { verifyUser } from '@/services/user-service';
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>();
@@ -61,7 +61,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     // setSessionId(ssid);
 
     // Verifytoken
-    return await getCurrentUser();
+    return await verifyUser();
   }
 
   useEffect(() => {

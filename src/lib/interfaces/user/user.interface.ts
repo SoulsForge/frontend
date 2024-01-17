@@ -9,3 +9,4 @@ export default interface IUser {
   imageUrl: string;
   settings: IUserSettings;
 }
+

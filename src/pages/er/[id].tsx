@@ -7,22 +7,24 @@ import {
   getAttributesWithComponents
 } from '@/lib/utilities/characters/elden-ring/utilities';
 import { getCharacterById } from '@/services/elden-ring-service';
-import Loading from '@/lib/components/conditionals/loader';
+import Loader from '@/lib/components/conditionals/loader';
 import NextImage from 'next/image';
 import useMediaQuery from '@/lib/hooks/useMediaQuery';
 import { Button, Image } from '@nextui-org/react';
-import useAuth from '@/lib/hooks/useAuth';
+import useAuth from '@/lib/hooks/context/useAuth';
 import NextLink from 'next/link';
+import useHead from '@/lib/hooks/context/useHead';
 
 export default function EldenRingCharacterPage() {
   const { query } = useRouter();
-  const { user } = useAuth();
   const characterId = parseInt(query.id as string);
+  const { user } = useAuth();
   const isLargeViewport = useMediaQuery('(min-width: 1024px)');
   const [character, setCharacter] = useState<IEldenRingCharacter>();
   const [attributes, setAttributes] =
     useState<EldenRingAttributesWithComponent>();
 
+  const { setCustomTitle } = useHead(character?.character.name);
 
   useEffect(() => {
     if (!characterId)
@@ -34,15 +36,18 @@ export default function EldenRingCharacterPage() {
           attributes: data.attributes,
           character: data.baseCharacter,
         });
+
       });
   }, [characterId]);
 
   useEffect(() => {
-    if (character) setAttributes(getAttributesWithComponents(character));
+    if (character) {
+      setAttributes(getAttributesWithComponents(character));
+    }
   }, [character]);
 
   if (!character) {
-    return <Loading loaded={Boolean(character) && Boolean(attributes)} className='flex-grow'/>;
+    return <Loader loaded={Boolean(character) && Boolean(attributes)} className='flex-grow'/>;
   }
 
   return (

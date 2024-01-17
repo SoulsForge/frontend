@@ -5,9 +5,8 @@ import MainLayout from '@/lib/components/layout/main-layout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-
     <Providers>
-      <MainLayout>
+      <MainLayout >
         <Component {...pageProps} />
       </MainLayout>
     </Providers>

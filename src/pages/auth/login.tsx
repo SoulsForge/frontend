@@ -3,7 +3,7 @@ import useFormState from '@/lib/hooks/useFormState';
 import { useEffect, useState } from 'react';
 import { Eye, EyeOffIcon } from 'lucide-react';
 import MainLayout from '@/lib/components/layout/main-layout';
-import useAuth from '@/lib/hooks/useAuth';
+import useAuth from '@/lib/hooks/context/useAuth';
 import { authLogin } from '@/services/auth-service';
 import { useRouter } from 'next/router';
 import { useParams, useSearchParams } from 'next/navigation';

@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren {
   className?: string;
 }
 
-export default function Loading({
+export default function Loader({
                                   children,
                                   loaded = false,
                                   message,
