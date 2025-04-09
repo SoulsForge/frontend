@@ -22,7 +22,7 @@ import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { SubmitButton } from "@/components/ui/submit-button";
+import { SubmitButton } from "@/components/ui-custom/submit-button";
 import { setAuthorization } from "@/lib/clients/graphql";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";

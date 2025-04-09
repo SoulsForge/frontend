@@ -20,7 +20,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { PasswordInput } from "../ui/input-password";
 import { Separator } from "../ui/separator";
-import { SubmitButton } from "../ui/submit-button";
+import { SubmitButton } from "../ui-custom/submit-button";
 import { cn } from "@/lib/utils";
 import { registerUser } from "@/services/users";
 import { useForm } from "react-hook-form";

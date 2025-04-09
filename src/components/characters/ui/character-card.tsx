@@ -1,12 +1,14 @@
 import { Badge } from "@/components/ui/badge";
+import { BaseCharacter } from "@/lib/types";
 import { Card } from "@/components/ui/card";
+import { Image } from "@/components/ui-custom/image";
 import SummaryCharacter from "@/services/timeline/summary-character";
 import { cn } from "@/lib/utils";
 
 export default function CharacterCard({
-  characterSummary,
+  characterSummary: character,
   className,
-}: { characterSummary: SummaryCharacter; className?: string }) {
+}: { characterSummary: SummaryCharacter | BaseCharacter; className?: string }) {
   return (
     <Card
       className={cn(
@@ -14,16 +16,17 @@ export default function CharacterCard({
         className,
       )}
     >
-      <img
-        src={characterSummary.image_url || "/placeholder.svg"}
-        alt={characterSummary.name}
+      <Image
+        src={character.image_url}
+        alt={character.name}
         className="h-full w-full rounded-lg object-cover"
+        aspectRatio="video"
       />
       <h3 className="absolute right-0 bottom-0 left-0 line-clamp-1 p-2 font-semibold text-lg text-white">
-        {characterSummary.name}
+        {character.name}
       </h3>
       <Badge className="absolute top-2 right-2 bg-black/70 text-white hover:bg-black/70">
-        {characterSummary.game.name}
+        {character.game.name}
       </Badge>
     </Card>
   );

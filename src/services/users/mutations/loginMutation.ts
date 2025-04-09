@@ -8,6 +8,9 @@ login($loginData: SignInInput!) {
       email
       emailVerified
       username
+      profile {
+        avatar
+      }
       role
     }
     accessToken

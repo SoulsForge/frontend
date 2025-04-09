@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
-import { NumberInput } from "@/components/ui/number-input";
+import { NumberInput } from "@/components/ui-custom/number-input";
 import { RGBColor } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useState } from "react";

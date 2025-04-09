@@ -3,12 +3,12 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./accordion";
-import { Alert, AlertDescription, AlertTitle } from "./alert";
+} from "../ui/accordion";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { ErrorComponentProps, Link, useRouter } from "@tanstack/react-router";
 
 import { AlertTriangleIcon } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 
 export default function ErrorComponent({
   error,

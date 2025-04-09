@@ -11,6 +11,8 @@ import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import CharacterSection from "@/components/characters/character-section";
 import CharacterSubsection from "@/components/characters/character-subsection";
+import { Image } from "@/components/ui-custom/image";
+import { Skeleton } from "@/components/ui/skeleton";
 import { downloadObjectAsJson } from "@/lib/objects";
 import { getCharacterById } from "@/services/characters";
 
@@ -90,11 +92,13 @@ function RouteComponent() {
       </section>
       <section className="flex w-full flex-col items-center justify-center">
         <figure className="w-full">
-          <img
+          <Image
             className="mx-auto h-[500px] w-full rounded-lg object-contain shadow-lg"
             src={character.image_url}
             alt={character.name}
+            aspectRatio="video"
           />
+
           <figcaption className="mt-4 text-left">
             <p className="text-gray-500 text-sm">
               Created by{" "}

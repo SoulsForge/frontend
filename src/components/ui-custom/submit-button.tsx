@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from "./button";
+import { Button, type ButtonProps } from "../ui/button";
 
 import { cn } from "@/lib/utils";
 import { LoaderCircleIcon } from "lucide-react";

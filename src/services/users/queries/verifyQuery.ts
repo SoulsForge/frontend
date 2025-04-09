@@ -7,6 +7,9 @@ const verifyQuery = query`
     username
     email
     emailVerified
+    profile {
+      avatar
+    }
     role
   }
 }

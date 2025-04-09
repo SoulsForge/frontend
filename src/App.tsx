@@ -1,6 +1,6 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 
-import ErrorComponent from "./components/ui/error-component";
+import ErrorComponent from "./components/layout/error-component";
 import { Loader2Icon } from "lucide-react";
 import { routeTree } from "./routeTree.gen";
 import useAuth from "./hooks/use-auth";

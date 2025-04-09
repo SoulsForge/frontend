@@ -8,7 +8,7 @@ import {
   redirect,
 } from "@tanstack/react-router";
 
-import AvatarWithDropdown from "@/components/ui/avatar-with-dropdown";
+import AvatarWithDropdown from "@/components/ui-custom/avatar-with-dropdown";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";

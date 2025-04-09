@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "../ui/input-password";
 import { Separator } from "../ui/separator";
-import { SubmitButton } from "../ui/submit-button";
+import { SubmitButton } from "../ui-custom/submit-button";
 import { cn } from "@/lib/utils";
 import { loginUser } from "@/services/users";
 import useAuth from "@/hooks/use-auth";
