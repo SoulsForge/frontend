@@ -157,7 +157,11 @@ function RouteComponent() {
               />
 
               <div className="flex flex-col justify-center">
-                <SubmitButton isSubmitting={loading} type="submit">
+                <SubmitButton
+                  isSubmitting={loading}
+                  type="submit"
+                  disabled={!form.formState.isValid}
+                >
                   Verify Email
                 </SubmitButton>
                 {!code && (
