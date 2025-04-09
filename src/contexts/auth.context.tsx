@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user.emailVerified) {
       toast.info("Please verify your email address to access all features.", {
         description: "Check your spam folder if you don't see the email.",
+        duration: 5000,
       });
     }
 
