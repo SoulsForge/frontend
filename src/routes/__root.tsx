@@ -10,9 +10,9 @@ import {
 
 import AvatarWithDropdown from "@/components/ui/avatar-with-dropdown";
 import { Button } from "@/components/ui/button";
-import useAuth from "@/hooks/use-auth";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Loader2Icon } from "lucide-react";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import useAuth from "@/hooks/use-auth";
 
 type RouterContext = {
   authentication: ReturnType<typeof useAuth>;
@@ -43,6 +43,16 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       <Loader2Icon className="animate-spin" />
     </div>
   ),
+  errorComponent: (e) => {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="text-2xl font-bold">Error</h1>
+          <p>{e.error.message}</p>
+        </div>
+      </div>
+    );
+  },
 });
 
 const activeClass = "underline";
