@@ -1,5 +1,3 @@
-import { RegisterDto, registerSchema } from "@/services/users/dto/register.dto";
-import { Link, Route, useRouter } from "@tanstack/react-router";
 import {
   Card,
   CardContent,
@@ -15,17 +13,19 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { Link, Route, useRouter } from "@tanstack/react-router";
+import { RegisterDto, registerSchema } from "@/services/users/dto/register.dto";
 
-import { cn } from "@/lib/utils";
-import { registerUser } from "@/services/users";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { PasswordInput } from "../ui/input-password";
 import { Separator } from "../ui/separator";
 import { SubmitButton } from "../ui/submit-button";
+import { cn } from "@/lib/utils";
+import { registerUser } from "@/services/users";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function RegisterForm({
   Route,

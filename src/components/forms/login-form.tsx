@@ -5,21 +5,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LoginDto, loginSchema } from "@/services/users/dto/login.dto";
-import { Link, Route, useRouter } from "@tanstack/react-router";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Link, Route, useRouter } from "@tanstack/react-router";
+import { LoginDto, loginSchema } from "@/services/users/dto/login.dto";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useAuth from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
-import { loginUser } from "@/services/users";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { PasswordInput } from "../ui/input-password";
 import { Separator } from "../ui/separator";
 import { SubmitButton } from "../ui/submit-button";
+import { cn } from "@/lib/utils";
+import { loginUser } from "@/services/users";
+import useAuth from "@/hooks/use-auth";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function LoginForm({
   Route,
@@ -87,7 +87,7 @@ export function LoginForm({
                   <FormItem>
                     <FormLabel>Username</FormLabel>
                     <FormControl>
-                      <Input id="username" type="text" required {...field} />
+                      <Input id="username" type="text" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -99,7 +99,7 @@ export function LoginForm({
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <PasswordInput id="password" required {...field} />
+                      <PasswordInput id="password" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
