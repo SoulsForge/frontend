@@ -18,6 +18,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as UsernameImport } from './routes/$username'
 import { Route as IndexImport } from './routes/index'
 import { Route as CharacterIdImport } from './routes/character/$id'
+import { Route as AuthenticatedVerifyEmailImport } from './routes/_authenticated/verify-email'
 import { Route as AuthenticatedSlidersImport } from './routes/_authenticated/sliders'
 import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedCreateImport } from './routes/_authenticated/create'
@@ -66,6 +67,12 @@ const CharacterIdRoute = CharacterIdImport.update({
   id: '/character/$id',
   path: '/character/$id',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedVerifyEmailRoute = AuthenticatedVerifyEmailImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const AuthenticatedSlidersRoute = AuthenticatedSlidersImport.update({
@@ -199,6 +206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSlidersImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/verify-email': {
+      id: '/_authenticated/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof AuthenticatedVerifyEmailImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/character/$id': {
       id: '/character/$id'
       path: '/character/$id'
@@ -222,6 +236,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedCreateRoute: typeof AuthenticatedCreateRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSlidersRoute: typeof AuthenticatedSlidersRoute
+  AuthenticatedVerifyEmailRoute: typeof AuthenticatedVerifyEmailRoute
   AuthenticatedCharacterIdEditRoute: typeof AuthenticatedCharacterIdEditRoute
 }
 
@@ -229,6 +244,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedCreateRoute: AuthenticatedCreateRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSlidersRoute: AuthenticatedSlidersRoute,
+  AuthenticatedVerifyEmailRoute: AuthenticatedVerifyEmailRoute,
   AuthenticatedCharacterIdEditRoute: AuthenticatedCharacterIdEditRoute,
 }
 
@@ -248,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/create': typeof AuthenticatedCreateRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/sliders': typeof AuthenticatedSlidersRoute
+  '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/character/$id': typeof CharacterIdRoute
   '/character/$id/edit': typeof AuthenticatedCharacterIdEditRoute
 }
@@ -264,6 +281,7 @@ export interface FileRoutesByTo {
   '/create': typeof AuthenticatedCreateRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/sliders': typeof AuthenticatedSlidersRoute
+  '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/character/$id': typeof CharacterIdRoute
   '/character/$id/edit': typeof AuthenticatedCharacterIdEditRoute
 }
@@ -282,6 +300,7 @@ export interface FileRoutesById {
   '/_authenticated/create': typeof AuthenticatedCreateRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/sliders': typeof AuthenticatedSlidersRoute
+  '/_authenticated/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/character/$id': typeof CharacterIdRoute
   '/_authenticated/character/$id/edit': typeof AuthenticatedCharacterIdEditRoute
 }
@@ -300,6 +319,7 @@ export interface FileRouteTypes {
     | '/create'
     | '/settings'
     | '/sliders'
+    | '/verify-email'
     | '/character/$id'
     | '/character/$id/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -315,6 +335,7 @@ export interface FileRouteTypes {
     | '/create'
     | '/settings'
     | '/sliders'
+    | '/verify-email'
     | '/character/$id'
     | '/character/$id/edit'
   id:
@@ -331,6 +352,7 @@ export interface FileRouteTypes {
     | '/_authenticated/create'
     | '/_authenticated/settings'
     | '/_authenticated/sliders'
+    | '/_authenticated/verify-email'
     | '/character/$id'
     | '/_authenticated/character/$id/edit'
   fileRoutesById: FileRoutesById
@@ -396,6 +418,7 @@ export const routeTree = rootRoute
         "/_authenticated/create",
         "/_authenticated/settings",
         "/_authenticated/sliders",
+        "/_authenticated/verify-email",
         "/_authenticated/character/$id/edit"
       ]
     },
@@ -427,6 +450,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/sliders": {
       "filePath": "_authenticated/sliders.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/verify-email": {
+      "filePath": "_authenticated/verify-email.tsx",
       "parent": "/_authenticated"
     },
     "/character/$id": {
