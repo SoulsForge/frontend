@@ -1,10 +1,11 @@
 import { LoginDto, LoginResponse } from "./dto/login.dto";
 
+import User from "./user";
 import client from "@/lib/clients/graphql";
 import loginMutation from "./mutations/loginMutation";
 import registerMutation from "./mutations/registerMutation";
+import verifyEmailMutation from "./mutations/verifyEmailMutation";
 import verifyQuery from "./queries/verifyQuery";
-import User from "./user";
 
 export async function verifyUser(): Promise<User> {
   const user = await client.fetch(verifyQuery);
@@ -28,6 +29,13 @@ export async function registerUser(registerData: {
   password: string;
 }) {
   const response = await client.fetch(registerMutation, { registerData });
+
+  return response as User;
+}
+
+export async function verifyEmail(code: string): Promise<User> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const response = await client.fetch(verifyEmailMutation, { code });
 
   return response as User;
 }
