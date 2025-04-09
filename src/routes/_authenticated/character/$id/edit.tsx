@@ -14,7 +14,6 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { getCharacterById, updateCharacterById } from "@/services/characters";
-import { useEffect, useState } from "react";
 
 import { BaseCharacter } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -23,10 +22,10 @@ import CharacterSection from "@/components/characters/character-section";
 import CharacterSubsectionEdit from "@/components/characters/edit/character-subsection-edit";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SubmitButton } from "@/components/ui/submit-button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import usePartialState from "@/hooks/use-partial-state";
+import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/character/$id/edit")({
   component: RouteComponent,
@@ -77,6 +76,11 @@ function RouteComponent() {
     },
   });
 
+  function extractPathFromError(errorMessage: string): string | null {
+    const match = errorMessage.match(/at\s"([^"]+)"/);
+    return match ? match[1] : null;
+  }
+
   async function handleSave() {
     if (!hasChanges) {
       toast.info("No changes to save");
@@ -104,6 +108,7 @@ function RouteComponent() {
           to: "/character/$id",
           params: { id: data.id },
           ignoreBlocker: true,
+          resetScroll: true,
         });
 
         return "Character saved successfully";
@@ -111,9 +116,12 @@ function RouteComponent() {
       error: (error) => {
         let errorMessage = "An unexpected error occurred";
 
-        console.log("errorrerroere", error);
-
-        if (error.errors?.[0]?.extensions?.originalError?.message) {
+        if (error.errors?.[0]?.extensions?.code === "BAD_USER_INPUT") {
+          const path = extractPathFromError(
+            error.errors[0].extensions.originalError.message,
+          );
+          console.log(path);
+        } else if (error.errors?.[0]?.extensions?.originalError?.message) {
           errorMessage = error.errors[0].extensions.originalError.message;
         } else if (error.response?.errors?.[0]?.message) {
           errorMessage = error.response.errors[0].message;
@@ -163,6 +171,7 @@ function RouteComponent() {
               router.navigate({
                 to: "/character/$id",
                 params: { id: character.id },
+                resetScroll: true,
               });
             }}
           >
@@ -1407,6 +1416,7 @@ function RouteComponent() {
                 partialState.sliders?.body?.muscle ||
                 character.sliders.body.muscle
               }
+              values={["Standard", "Muscular"]}
               onChange={(value) => {
                 updateState("sliders.body.muscle", value);
               }}
