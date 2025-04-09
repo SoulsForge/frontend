@@ -1,9 +1,10 @@
-import { removeAuthorization, setAuthorization } from "@/lib/clients/graphql";
 import { createContext, useEffect, useState } from "react";
+import { removeAuthorization, setAuthorization } from "@/lib/clients/graphql";
 
-import { verifyUser } from "@/services/users";
-import User from "@/services/users/user";
 import { Loader2Icon } from "lucide-react";
+import User from "@/services/users/user";
+import { toast } from "sonner";
+import { verifyUser } from "@/services/users";
 
 type AuthContextType = {
   user: User | null;
@@ -29,6 +30,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // setToken(token);
     setUser(user);
     setIsAuthenticated(true);
+
+    if (!user.emailVerified) {
+      toast.info("Please verify your email address to access all features.", {
+        description: "Check your spam folder if you don't see the email.",
+      });
+    }
 
     localStorage.setItem("token", token);
   }
