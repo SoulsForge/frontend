@@ -1,12 +1,19 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import SummaryCharacter from "@/services/timeline/summary-character";
+import { cn } from "@/lib/utils";
 
 export default function CharacterCard({
   characterSummary,
-}: { characterSummary: SummaryCharacter }) {
+  className,
+}: { characterSummary: SummaryCharacter; className?: string }) {
   return (
-    <Card className="relative aspect-video cursor-pointer overflow-hidden p-0 transition-opacity hover:opacity-90">
+    <Card
+      className={cn(
+        "relative aspect-video cursor-pointer overflow-hidden p-0 transition-opacity hover:opacity-90",
+        className,
+      )}
+    >
       <img
         src={characterSummary.image_url || "/placeholder.svg"}
         alt={characterSummary.name}
