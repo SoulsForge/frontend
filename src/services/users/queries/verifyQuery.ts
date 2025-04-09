@@ -6,6 +6,7 @@ const verifyQuery = query`
     id
     username
     email
+    emailVerified
     role
   }
 }

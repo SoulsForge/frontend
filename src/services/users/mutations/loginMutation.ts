@@ -6,6 +6,7 @@ login($loginData: SignInInput!) {
     user {
       id
       email
+      emailVerified
       username
       role
     }
