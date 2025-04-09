@@ -1,8 +1,17 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { DownloadIcon, EditIcon } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 
+import { Button } from "@/components/ui/button";
 import CharacterSection from "@/components/characters/character-section";
 import CharacterSubsection from "@/components/characters/character-subsection";
-import { Button } from "@/components/ui/button";
+import { downloadObjectAsJson } from "@/lib/objects";
 import { getCharacterById } from "@/services/characters";
 
 export const Route = createFileRoute("/character/$id")({
@@ -25,6 +34,20 @@ export const Route = createFileRoute("/character/$id")({
 
 function RouteComponent() {
   const { character, isOwner } = Route.useLoaderData();
+  const router = useRouter();
+
+  function handleDownload() {
+    downloadObjectAsJson(
+      {
+        name: character.name,
+        description: character.description,
+        image_url: character.image_url,
+        sliders: character.sliders,
+        game: character.game.name,
+      },
+      `${character.name} (${character.user.username})`,
+    );
+  }
 
   return (
     <article className="flex flex-col gap-4">
@@ -34,19 +57,36 @@ function RouteComponent() {
           <h3 className="mt-0 text-2xl">{character.game.name}</h3>
         </div>
 
-        {isOwner && (
-          <Button asChild variant="default">
-            <Link
-              to={`/character/$id/edit`}
-              params={{
-                id: character.id,
-              }}
-              preload={"intent"}
-            >
-              Edit
-            </Link>
-          </Button>
-        )}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button>Options</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {isOwner && (
+              <>
+                <DropdownMenuItem
+                  onClick={() => {
+                    router.navigate({
+                      to: `/character/$id/edit`,
+                      params: {
+                        id: character.id,
+                      },
+                      resetScroll: true,
+                    });
+                  }}
+                >
+                  <EditIcon />
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
+            <DropdownMenuItem onClick={handleDownload}>
+              <DownloadIcon />
+              Download to JSON
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </section>
       <section className="flex w-full flex-col items-center justify-center">
         <figure className="w-full">
