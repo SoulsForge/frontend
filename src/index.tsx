@@ -14,7 +14,7 @@ if (rootEl) {
   root.render(
     <React.StrictMode>
       <AuthProvider>
-        <Toaster />
+        <Toaster theme="dark" />
         <App />
       </AuthProvider>
     </React.StrictMode>,

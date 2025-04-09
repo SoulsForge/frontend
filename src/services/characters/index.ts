@@ -1,5 +1,6 @@
 import { BaseCharacter } from "@/lib/types";
 import client from "@/lib/clients/graphql";
+import createCharacterMutation from "./mutations/createCharacterMutation";
 import getCharacterByIdQuery from "./queries/getCharacterByIdQuery";
 import updateCharacterByIdMutation from "./mutations/updateCharacterByIdMutation";
 
@@ -19,6 +20,16 @@ export async function updateCharacterById(
 
   const response = await client.fetch(updateCharacterByIdMutation, {
     id,
+    data,
+  });
+
+  return response as BaseCharacter;
+}
+
+export async function createCharacter(
+  data: Partial<BaseCharacter>,
+): Promise<BaseCharacter> {
+  const response = await client.fetch(createCharacterMutation, {
     data,
   });
 

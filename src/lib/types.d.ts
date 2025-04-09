@@ -233,6 +233,8 @@ type Eye = {
   white_color: RGBColor;
 
   position: number;
+
+  clouding: number;
 };
 
 type SkinFeature = {

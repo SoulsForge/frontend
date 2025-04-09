@@ -66,7 +66,7 @@ export function RegisterForm({
 
       form.setError("root", {
         type: "custom",
-        message: (error.message as string).capitalize(),
+        message: error.message as string,
       });
     } finally {
       setLoading(false);
