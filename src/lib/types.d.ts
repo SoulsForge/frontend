@@ -18,7 +18,7 @@ export type BaseCharacter = {
   image_url: string;
   game: Game;
   user: User;
-  sliders: EldenRingCharacter;
+  sliders: EldenRingCharacterDto;
 };
 
 export type RGBColor = {
@@ -31,6 +31,8 @@ export type RGBColor = {
 
 type Base = {
   age: string;
+
+  body_type: string;
 
   voice: string;
 };
