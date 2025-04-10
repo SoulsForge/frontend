@@ -4,6 +4,7 @@ import {
   LogOutIcon,
   SettingsIcon,
   SlidersHorizontalIcon,
+  UserIcon,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -17,38 +18,49 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "../ui/skeleton";
+import { cn } from "@/lib/utils";
 import useAuth from "@/hooks/use-auth";
 import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
 
 export default function AvatarWithDropdown() {
   const { user } = useAuth();
   const router = useRouter();
+  const [open, setOpen] = useState<boolean>();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0">
           <Avatar>
             <AvatarImage src={user?.profile.avatar} alt="Profile image" />
             <AvatarFallback>
-              <Skeleton className="h-8 w-8 rounded-full" />
+              <Skeleton className="size-8 rounded-full" />
             </AvatarFallback>
           </Avatar>
           <ChevronDownIcon
             size={16}
-            className="opacity-60"
+            className={cn(
+              "opacity-60 transition-transform",
+              open && "rotate-180",
+            )}
             aria-hidden="true"
           />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-w-64">
-        <DropdownMenuLabel className="flex min-w-0 flex-col">
-          <span className="truncate font-medium text-foreground text-sm">
-            {user?.username}
-          </span>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem
+            onClick={() =>
+              router.navigate({
+                to: "/$username",
+                params: { username: user!.username },
+              })
+            }
+          >
+            <UserIcon size={16} className="opacity-60" aria-hidden="true" />
+            <span>My Profile</span>
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.navigate({ to: "/sliders" })}>
             <SlidersHorizontalIcon
               size={16}
