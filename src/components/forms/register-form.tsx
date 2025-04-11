@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -21,9 +22,10 @@ import { Input } from "../ui/input";
 import { PasswordInput } from "../ui/input-password";
 import { Separator } from "../ui/separator";
 import { SubmitButton } from "../ui-custom/submit-button";
+import { capitalize } from "@/lib/string";
 import { cn } from "@/lib/utils";
 import { registerUser } from "@/services/users";
-import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -59,19 +61,20 @@ export function RegisterForm({
       });
 
       if (response) {
+        toast.success("Registration successful! Please login.");
         router.navigate({ to: "/login" });
       }
     } catch (error: any) {
-      console.log(error);
-
       form.setError("root", {
         type: "custom",
-        message: error.message as string,
+        message: capitalize(error.message as string),
       });
     } finally {
       setLoading(false);
     }
   }
+
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -95,6 +98,7 @@ export function RegisterForm({
                     <FormControl>
                       <Input id="username" type="text" required {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -107,6 +111,7 @@ export function RegisterForm({
                     <FormControl>
                       <Input id="email" type="email" required {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -119,6 +124,7 @@ export function RegisterForm({
                     <FormControl>
                       <PasswordInput id="password" required {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -131,6 +137,7 @@ export function RegisterForm({
                     <FormControl>
                       <PasswordInput id="confirmPassword" required {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -140,8 +147,6 @@ export function RegisterForm({
                   {form.formState.errors.root.message}
                 </div>
               )}
-
-              <FormMessage />
 
               <SubmitButton
                 type="submit"
@@ -160,10 +165,10 @@ export function RegisterForm({
             Login with Google
           </Button>
           <div className="mt-4 text-center text-sm">
-            Already have an account?{" "}
-            <Link to={"/login"} className="text-blue-500 hover:underline">
-              Login here
-            </Link>
+            Already have an account?
+            <Button variant="link" className="p-1" asChild>
+              <Link to="/login">Sign in</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

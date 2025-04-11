@@ -122,6 +122,13 @@ export function LoginForm({
             </form>
           </Form>
 
+          <div className="mt-4 text-center text-sm">
+            Do you forgot your password?{" "}
+            <Link to="/">
+              <span className="underline underline-offset-4">Reset it</span>
+            </Link>
+          </div>
+
           <Separator className="my-4" />
 
           <Button variant="outline" className="w-full" disabled>
@@ -129,9 +136,11 @@ export function LoginForm({
           </Button>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
-            <Link to="/register" className="underline underline-offset-4">
-              Sign up
-            </Link>
+            <Button variant="link" className="p-1" asChild>
+              <Link to="/register" className="underline underline-offset-4">
+                Sign up
+              </Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
