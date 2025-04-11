@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import {
   HeadContent,
   Link,
@@ -10,7 +8,7 @@ import {
 
 import AvatarWithDropdown from "@/components/ui-custom/avatar-with-dropdown";
 import { Button } from "@/components/ui/button";
-import { Loader2Icon } from "lucide-react";
+import Loader from "@/components/ui-custom/loader";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import useAuth from "@/hooks/use-auth";
 
@@ -39,13 +37,13 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     }
   },
   pendingComponent: () => (
-    <div className="flex h-screen items-center justify-center">
-      <Loader2Icon className="animate-spin" />
+    <div className="flex-grow grid place-items-center">
+      <Loader />
     </div>
   ),
   errorComponent: (e) => {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex items-center justify-center">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold">Error</h1>
           <p>{e.error.message}</p>
