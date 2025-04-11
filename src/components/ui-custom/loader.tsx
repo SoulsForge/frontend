@@ -1,10 +1,9 @@
 import { Loader2Icon } from "lucide-react";
 import { PropsWithChildren } from "react";
 
-interface LoaderProps {
+interface LoaderProps extends PropsWithChildren {
   loaded?: boolean;
   message?: string;
-  children?: React.ReactNode;
 }
 
 export default function Loader({

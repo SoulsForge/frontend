@@ -16,11 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Save } from "lucide-react";
 import { SubmitButton } from "@/components/ui-custom/submit-button";
-import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 import { updateProfile } from "@/services/profile";
 import useAuth from "@/hooks/use-auth";
 import { useForm } from "react-hook-form";
@@ -44,8 +42,11 @@ const profileFormSchema = z.object({
   avatar: z.string().optional(),
 });
 
+
+
+
 export default function ProfileTab() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
@@ -67,10 +68,30 @@ export default function ProfileTab() {
       });
 
       if (resp) {
+        toast.success("Profile updated successfully!");
         console.log("Profile updated successfully:", resp);
+
+        if (resp.email !== values.email) {
+          toast.success("Please verify your new email address.", {
+            description:
+              "A verification email has been sent to your new email address.",
+          });
+        }
+
+        setUser({
+          ...user,
+          username: resp.username,
+          email: resp.email,
+          emailVerified: resp.emailVerified,
+          profile: {
+            ...user?.profile,
+            avatar: resp.avatar,
+          },
+        });
       }
     } catch (error) {
       console.error("Error updating profile:", error);
+      toast.error("Failed to update profile. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -100,9 +121,6 @@ export default function ProfileTab() {
                     : "JD"}
                 </AvatarFallback>
               </Avatar>
-              {/* <Button variant="outline" size="sm" className="self-end">
-                Change avatar
-              </Button> */}
               <FormField
                 control={form.control}
                 name="avatar"
@@ -158,7 +176,6 @@ export default function ProfileTab() {
                 )}
               />
             </div>
-
             <SubmitButton type="submit" isSubmitting={loading}>
               Save changes
             </SubmitButton>
