@@ -6,14 +6,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import CharacterCard from "./character-card";
 import { Link } from "@tanstack/react-router";
 import SummaryCharacter from "@/services/timeline/summary-character";
-import { cn } from "@/lib/utils";
 
 interface CharacterCarouselProps {
   characters: SummaryCharacter[];
@@ -49,6 +47,7 @@ export default function CharacterCarousel({
       opts={{
         align: "start",
         dragFree: true,
+        loop: true,
       }}
       className="w-full"
     >
@@ -76,7 +75,7 @@ export default function CharacterCarousel({
       <CarouselPrevious />
       <CarouselNext />
 
-      <div className="flex justify-center gap-1 mt-4">
+      {/* <div className="flex justify-center gap-1 mt-4">
         {Array.from({ length: scrollCount }).map((_, index) => (
           <Button
             key={index}
@@ -93,7 +92,7 @@ export default function CharacterCarousel({
             <span className="sr-only">Go to slide {index}</span>
           </Button>
         ))}
-      </div>
+      </div> */}
     </Carousel>
   );
 }
