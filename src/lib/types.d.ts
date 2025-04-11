@@ -21,6 +21,11 @@ export type BaseCharacter = {
   sliders: EldenRingCharacterDto;
 };
 
+export type CreateCharacter = Pick<
+  BaseCharacter,
+  "name" | "description" | "image_url" | "sliders"
+>;
+
 export type RGBColor = {
   r: number;
 

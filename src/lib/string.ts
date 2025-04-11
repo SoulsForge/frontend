@@ -1,12 +1,11 @@
 declare global {
   interface String {
-    capitalize(): string;
     joinWithChar(findChar: string, replaceChar: string): string;
   }
 }
 
-String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1);
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 String.prototype.joinWithChar = function (

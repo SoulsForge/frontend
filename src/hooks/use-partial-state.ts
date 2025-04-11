@@ -110,5 +110,6 @@ export default function usePartialState<T extends object>(initialState: T) {
     resetState,
     hasChanges,
     mergedState,
+    setPartialState,
   };
 }
