@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
 import useAuth from "@/hooks/use-auth";
 import { useRouter } from "@tanstack/react-router";
@@ -31,10 +30,10 @@ export default function AvatarWithDropdown() {
     <DropdownMenu onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0">
-          <Avatar>
-            <AvatarImage src={user?.profile.avatar} alt="Profile image" />
+          <Avatar className="">
+            <AvatarImage src={user?.profile.avatar} alt="Profile" />
             <AvatarFallback>
-              <Skeleton className="size-8 rounded-full" />
+              {user?.username ? user.username.charAt(0).toUpperCase() : "JD"}
             </AvatarFallback>
           </Avatar>
           <ChevronDownIcon
