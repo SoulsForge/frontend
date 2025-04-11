@@ -94,6 +94,8 @@ function RouteComponent() {
         } else {
           router.navigate({ to: "/sliders" });
         }
+
+        return "Email verified successfully!";
       },
       error: (error) => {
         setError(error.message);
