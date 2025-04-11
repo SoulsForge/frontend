@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { removeAuthorization, setAuthorization } from "@/lib/clients/graphql";
 
-import { Loader2Icon } from "lucide-react";
+import Loader from "@/components/ui-custom/loader";
 import User from "@/services/users/user";
 import { toast } from "sonner";
 import { verifyUser } from "@/services/users";
@@ -13,6 +13,7 @@ type AuthContextType = {
   login: (token: string, user: User) => void;
   logout: () => void;
   verify: () => Promise<void>;
+  setUser: (user: User | null) => void;
 };
 
 export const AuthContext = createContext<AuthContextType>(
@@ -78,8 +79,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
-        <Loader2Icon className="animate-spin text-foreground" />
+      <div className="flex-grow h-screen grid place-items-center">
+        <Loader message="Authenticating..." />
       </div>
     );
   }
@@ -88,6 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         isAuthenticated,
         isLoading,
         login,
