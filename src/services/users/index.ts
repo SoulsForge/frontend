@@ -4,6 +4,7 @@ import User from "./user";
 import client from "@/lib/clients/graphql";
 import loginMutation from "./mutations/loginMutation";
 import registerMutation from "./mutations/registerMutation";
+import updatePasswordMutation from "./mutations/updatePasswordMutation";
 import verifyEmailMutation from "./mutations/verifyEmailMutation";
 import verifyQuery from "./queries/verifyQuery";
 
@@ -36,6 +37,15 @@ export async function registerUser(registerData: {
 export async function verifyEmail(code: string): Promise<User> {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const response = await client.fetch(verifyEmailMutation, { code });
+
+  return response as User;
+}
+
+export async function updatePassword(passwordData: {
+  oldPassword: string;
+  newPassword: string;
+}) {
+  const response = await client.fetch(updatePasswordMutation, { passwordData });
 
   return response as User;
 }
