@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import CharacterSection from "@/components/characters/character-section";
 import CharacterSubsection from "@/components/characters/character-subsection";
 import { Image } from "@/components/ui-custom/image";
-import { Skeleton } from "@/components/ui/skeleton";
 import { downloadObjectAsJson } from "@/lib/objects";
 import { getCharacterById } from "@/services/characters";
 
