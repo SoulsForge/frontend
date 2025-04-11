@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import CharacterCard from "@/components/characters/ui/character-card";
-import Loader from "@/components/ui/loader";
+import Loader from "@/components/ui-custom/loader";
 import { getMySliders } from "@/services/profile";
 
 export const Route = createFileRoute("/_authenticated/sliders")({
