@@ -7,30 +7,43 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { BaseCharacter, CreateCharacter } from "@/lib/types";
+import { ChangeEvent, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ExternalLinkIcon, UploadIcon } from "lucide-react";
 import {
   createFileRoute,
   redirect,
   useBlocker,
   useRouter,
 } from "@tanstack/react-router";
+import { mapFromEldenBling, mapToCreateCharacter } from "@/lib/character";
 
-import { BaseCharacter } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { CharacterLimitInput } from "@/components/ui/input-limit";
 import CharacterSection from "@/components/characters/character-section";
 import CharacterSubsectionEdit from "@/components/characters/edit/character-subsection-edit";
+import { DialogClose } from "@radix-ui/react-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { capitalize } from "@/lib/string";
 import { createCharacter } from "@/services/characters";
 import { toast } from "sonner";
 import usePartialState from "@/hooks/use-partial-state";
-import { useState } from "react";
-
-type CreateCharacter = Pick<
-  BaseCharacter,
-  "name" | "description" | "image_url" | "sliders"
->;
 
 export const Route = createFileRoute("/_authenticated/create")({
   component: RouteComponent,
@@ -307,7 +320,9 @@ export const Route = createFileRoute("/_authenticated/create")({
 });
 
 function RouteComponent() {
-  const { character } = Route.useLoaderData();
+  // const [character, setCharacter] = useState(Route.useLoaderData().character);
+
+  let { character } = Route.useLoaderData();
   const router = useRouter();
   const [confirmResetOpenDialog, setConfirmResetOpenDialog] =
     useState<boolean>();
@@ -321,6 +336,7 @@ function RouteComponent() {
     resetState,
     hasChanges,
     mergedState,
+    setPartialState,
   } = usePartialState<CreateCharacter>(character);
 
   useBlocker({
@@ -338,6 +354,44 @@ function RouteComponent() {
   function extractPathFromError(errorMessage: string): string | null {
     const match = errorMessage.match(/at\s"([^"]+)"/);
     return match ? match[1] : null;
+  }
+
+  function uploadFromJson() {
+    const input = document.createElement("input");
+    input.type = "file";
+
+    input.onchange = (e) => {
+      const target = e.target as HTMLInputElement;
+      const file = target.files?.[0];
+
+      if (!file) return;
+      try {
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+
+        reader.onerror = () => {
+          toast.error("Error reading file");
+        };
+
+        reader.onload = (e) => {
+          const content = e.target!.result;
+          const jsonString = JSON.parse(content as string);
+          character = mapToCreateCharacter(jsonString);
+
+          setPartialState(character);
+        };
+      } catch (error: any) {
+        toast.error("Invalid JSON file", {
+          description: error.message,
+        });
+
+        console.error(error);
+
+        return;
+      }
+    };
+
+    input.click();
   }
 
   async function handleSave() {
@@ -364,6 +418,9 @@ function RouteComponent() {
           });
       });
     }
+
+    console.log("Saving character", mergedState);
+    
 
     toast.promise(sendSave, {
       loading: "Creating character...",
@@ -404,6 +461,32 @@ function RouteComponent() {
     });
   }
 
+  const [eldenBlingOpenDialog, setEldenBlingOpenDialog] = useState(false);
+
+  function onEldenBlingSubmit(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+
+    try {
+      const textarea = event.currentTarget.querySelector(
+        "textarea",
+      ) as HTMLTextAreaElement;
+      const character = mapFromEldenBling(JSON.parse(textarea.value));
+
+      setPartialState(character);
+
+      textarea.value = "";
+
+      setEldenBlingOpenDialog(false);
+    } catch (error) {
+      toast.error("Invalid Elden Bling JSON", {
+        description: capitalize(error.message),
+      });
+
+      console.error(error);
+      return;
+    }
+  }
+
   return (
     <>
       <AlertDialog open={confirmResetOpenDialog}>
@@ -429,8 +512,61 @@ function RouteComponent() {
         </AlertDialogContent>
       </AlertDialog>
 
+      <Dialog
+        onOpenChange={setEldenBlingOpenDialog}
+        open={eldenBlingOpenDialog}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Paste your Elden Bling JSON here</DialogTitle>
+            <DialogDescription>
+              This will overwrite your current character.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={onEldenBlingSubmit} id="elden_bling_form">
+            <Textarea
+              placeholder="Paste your Elden Bling JSON here"
+              className="h-32 w-full"
+              id="elden_bling_json"
+              required
+            />
+          </form>
+          <DialogFooter>
+            <Button form="elden_bling_form" type="submit">
+              Submit
+            </Button>
+            <DialogClose asChild>
+              <Button variant="destructive">Cancel</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <article className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-8">
         <section className="sticky top-0 z-10 flex w-full items-center justify-end space-x-2 px-4 py-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>Options</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                onClick={() => {
+                  uploadFromJson();
+                }}
+              >
+                <UploadIcon />
+                Upload from JSON
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setEldenBlingOpenDialog(true);
+                }}
+              >
+                <ExternalLinkIcon />
+                Upload from Elden Bling
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button
             className="cursor-pointer"
             variant="destructive"
@@ -483,13 +619,6 @@ function RouteComponent() {
           </div>
         </section>
         <section className="flex w-full flex-col">
-          {/* <figure className="w-full">
-      <img
-        className="mx-auto h-[500px] w-full rounded-lg object-contain shadow-lg"
-        src={character.image_url}
-        alt={character.name}
-      />
-    </figure> */}
           <Label className="mt-4 text-lg font-bold" htmlFor="image_url">
             Image URL
           </Label>
