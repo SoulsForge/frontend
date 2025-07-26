@@ -291,11 +291,15 @@ function mapSliders(sliders: any): CreateCharacter["sliders"] {
   };
 }
 
-function validateNumber(value: any, fieldName: string): number {
-  if (typeof value !== "number" || isNaN(value)) {
+function validateNumber(
+  value: any,
+  fieldName: string,
+  defaultValue?: number,
+): number {
+  if ((typeof value !== "number" || isNaN(value)) && defaultValue === null) {
     throw new Error(`Invalid value for ${fieldName}: must be a number`);
   }
-  return value;
+  return typeof value !== "number" || isNaN(value) ? defaultValue! : value;
 }
 
 function validateBoolean(value: any, fieldName: string): boolean {
@@ -587,11 +591,72 @@ export function mapFromEldenBling(data: any): CreateCharacter {
         ),
       },
       left_eye: {
+        iris_size: validateNumber(
+          parseInt(data.left_eye?.iris_size),
+          "left_eye.iris_size",
+          0,
+        ),
         iris_color: {
-          r: validateNumber(parseInt(data.left_eye?.iris_r), "left_eye.iris_r"),
-          g: validateNumber(parseInt(data.left_eye?.iris_g), "left_eye.iris_g"),
-          b: validateNumber(parseInt(data.left_eye?.iris_b), "left_eye.iris_b"),
+          r: validateNumber(
+            parseInt(data.left_eye?.iris_r),
+            "left_eye.iris_r",
+            0,
+          ),
+          g: validateNumber(
+            parseInt(data.left_eye?.iris_g),
+            "left_eye.iris_g",
+            0,
+          ),
+          b: validateNumber(
+            parseInt(data.left_eye?.iris_b),
+            "left_eye.iris_b",
+            0,
+          ),
         },
+        clouding: validateNumber(
+          parseInt(data.left_eye?.clouding),
+          "left_eye.clouding",
+          0,
+        ),
+        clouding_color: {
+          r: validateNumber(
+            parseInt(data.left_eye?.clouding_r),
+            "left_eye.clouding_r",
+            0,
+          ),
+          g: validateNumber(
+            parseInt(data.left_eye?.clouding_g),
+            "left_eye.clouding_g",
+            0,
+          ),
+          b: validateNumber(
+            parseInt(data.left_eye?.clouding_b),
+            "left_eye.clouding_b",
+            0,
+          ),
+        },
+        white_color: {
+          r: validateNumber(
+            parseInt(data.left_eye?.white_r),
+            "left_eye.white_r",
+            0,
+          ),
+          g: validateNumber(
+            parseInt(data.left_eye?.white_g),
+            "left_eye.white_g",
+            0,
+          ),
+          b: validateNumber(
+            parseInt(data.left_eye?.white_b),
+            "left_eye.white_b",
+            0,
+          ),
+        },
+        position: validateNumber(
+          parseInt(data.left_eye?.position),
+          "left_eye.position",
+          0,
+        ),
       },
       skin_feature: {
         pores: validateNumber(

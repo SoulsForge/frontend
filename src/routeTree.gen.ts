@@ -22,6 +22,7 @@ import { Route as AuthenticatedVerifyEmailImport } from './routes/_authenticated
 import { Route as AuthenticatedSlidersImport } from './routes/_authenticated/sliders'
 import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedCreateImport } from './routes/_authenticated/create'
+import { Route as authResetPasswordImport } from './routes/(auth)/reset-password'
 import { Route as authRegisterImport } from './routes/(auth)/register'
 import { Route as authLogoutImport } from './routes/(auth)/logout'
 import { Route as authLoginImport } from './routes/(auth)/login'
@@ -91,6 +92,12 @@ const AuthenticatedCreateRoute = AuthenticatedCreateImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const authResetPasswordRoute = authResetPasswordImport.update({
+  id: '/(auth)/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const authRegisterRoute = authRegisterImport.update({
@@ -185,6 +192,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authRegisterImport
       parentRoute: typeof rootRoute
     }
+    '/(auth)/reset-password': {
+      id: '/(auth)/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authResetPasswordImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated/create': {
       id: '/_authenticated/create'
       path: '/create'
@@ -261,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof authLoginRoute
   '/logout': typeof authLogoutRoute
   '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
   '/create': typeof AuthenticatedCreateRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/sliders': typeof AuthenticatedSlidersRoute
@@ -278,6 +293,7 @@ export interface FileRoutesByTo {
   '/login': typeof authLoginRoute
   '/logout': typeof authLogoutRoute
   '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
   '/create': typeof AuthenticatedCreateRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/sliders': typeof AuthenticatedSlidersRoute
@@ -297,6 +313,7 @@ export interface FileRoutesById {
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/logout': typeof authLogoutRoute
   '/(auth)/register': typeof authRegisterRoute
+  '/(auth)/reset-password': typeof authResetPasswordRoute
   '/_authenticated/create': typeof AuthenticatedCreateRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/sliders': typeof AuthenticatedSlidersRoute
@@ -316,6 +333,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/logout'
     | '/register'
+    | '/reset-password'
     | '/create'
     | '/settings'
     | '/sliders'
@@ -332,6 +350,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/logout'
     | '/register'
+    | '/reset-password'
     | '/create'
     | '/settings'
     | '/sliders'
@@ -349,6 +368,7 @@ export interface FileRouteTypes {
     | '/(auth)/login'
     | '/(auth)/logout'
     | '/(auth)/register'
+    | '/(auth)/reset-password'
     | '/_authenticated/create'
     | '/_authenticated/settings'
     | '/_authenticated/sliders'
@@ -368,6 +388,7 @@ export interface RootRouteChildren {
   authLoginRoute: typeof authLoginRoute
   authLogoutRoute: typeof authLogoutRoute
   authRegisterRoute: typeof authRegisterRoute
+  authResetPasswordRoute: typeof authResetPasswordRoute
   CharacterIdRoute: typeof CharacterIdRoute
 }
 
@@ -381,6 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   authLoginRoute: authLoginRoute,
   authLogoutRoute: authLogoutRoute,
   authRegisterRoute: authRegisterRoute,
+  authResetPasswordRoute: authResetPasswordRoute,
   CharacterIdRoute: CharacterIdRoute,
 }
 
@@ -403,6 +425,7 @@ export const routeTree = rootRoute
         "/(auth)/login",
         "/(auth)/logout",
         "/(auth)/register",
+        "/(auth)/reset-password",
         "/character/$id"
       ]
     },
@@ -439,6 +462,9 @@ export const routeTree = rootRoute
     },
     "/(auth)/register": {
       "filePath": "(auth)/register.tsx"
+    },
+    "/(auth)/reset-password": {
+      "filePath": "(auth)/reset-password.tsx"
     },
     "/_authenticated/create": {
       "filePath": "_authenticated/create.tsx",

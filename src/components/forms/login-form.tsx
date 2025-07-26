@@ -124,9 +124,11 @@ export function LoginForm({
 
           <div className="mt-4 text-center text-sm">
             Do you forgot your password?{" "}
-            <Link to="/">
-              <span className="underline underline-offset-4">Reset it</span>
-            </Link>
+            <Button variant="link" className="p-1" asChild>
+              <Link to="/reset-password">
+                <span className="underline underline-offset-4">Reset it</span>
+              </Link>
+            </Button>
           </div>
 
           <Separator className="my-4" />

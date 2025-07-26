@@ -42,23 +42,23 @@ function RouteComponent() {
           });
         }}
       >
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full h-full md:grid-cols-4 grid-cols-2 gap-2">
           <TabsTrigger className="w-full" value="overview">
-            <Settings2Icon className="mr-2 h-4 w-4" />
+            <Settings2Icon className="h-4 w-4" />
             Overview
           </TabsTrigger>
           <TabsTrigger className="w-full" value="profile">
-            <UserIcon className="mr-2 h-4 w-4" />
+            <UserIcon className="h-4 w-4" />
             Profile
           </TabsTrigger>
 
           <TabsTrigger className="w-full" value="password">
-            <ShieldUserIcon className="mr-2 h-4 w-4" />
+            <ShieldUserIcon className="h-4 w-4" />
             Password and Security
           </TabsTrigger>
 
           <TabsTrigger className="w-full" value="danger">
-            <TriangleAlertIcon className="mr-2 h-4 w-4" />
+            <TriangleAlertIcon className="h-4 w-4" />
             Danger Zone
           </TabsTrigger>
         </TabsList>
@@ -74,10 +74,6 @@ function RouteComponent() {
         <TabsContent value="password">
           <PassowrdTab />
         </TabsContent>
-
-        {/* <TabsContent value="connections"></TabsContent>
-
-      <TabsContent value="sessions"></TabsContent> */}
 
         <TabsContent value="danger">
           <DangerTab />

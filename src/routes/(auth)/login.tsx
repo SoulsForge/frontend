@@ -13,7 +13,7 @@ export const Route = createFileRoute("/(auth)/login")({
 
 function RouteComponent() {
   return (
-    <section className="mx-auto mt-auto mb-auto w-full max-w-lg">
+    <section className="mx-auto my-auto w-full max-w-lg">
       <LoginForm Route={Route} />
     </section>
   );

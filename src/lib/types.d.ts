@@ -19,6 +19,7 @@ export type BaseCharacter = {
   game: Game;
   user: User;
   sliders: EldenRingCharacterDto;
+  isFavorite: boolean | null;
 };
 
 export type CreateCharacter = Pick<

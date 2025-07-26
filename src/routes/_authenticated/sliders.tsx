@@ -9,6 +9,8 @@ export const Route = createFileRoute("/_authenticated/sliders")({
   loader: async () => {
     const mySliders = await getMySliders();
 
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     return {
       mySliders,
     };

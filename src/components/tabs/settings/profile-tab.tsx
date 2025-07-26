@@ -42,9 +42,6 @@ const profileFormSchema = z.object({
   avatar: z.string().optional(),
 });
 
-
-
-
 export default function ProfileTab() {
   const { user, setUser } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -61,33 +58,59 @@ export default function ProfileTab() {
   async function onProfileSubmit(values: z.infer<typeof profileFormSchema>) {
     setLoading(true);
     try {
-      const resp = await updateProfile({
-        username: values.username || undefined,
-        email: values.email || undefined,
-        avatar: values.avatar || undefined,
-      });
+      // Create an object with only the changed fields
+      const updatedFields: Partial<z.infer<typeof profileFormSchema>> = {};
+
+      if (values.username !== user?.username) {
+        updatedFields.username = values.username;
+      }
+
+      if (values.email !== user?.email) {
+        updatedFields.email = values.email;
+      }
+
+      if (values.avatar !== user?.profile.avatar) {
+        updatedFields.avatar = values.avatar;
+      }
+
+      if (Object.keys(updatedFields).length === 0) {
+        // Check if there are no changes
+        toast.info("No changes to save");
+        setLoading(false);
+        return;
+      }
+
+      console.log("Sending only changed fields:", updatedFields);
+
+      const resp = await updateProfile(updatedFields);
 
       if (resp) {
         toast.success("Profile updated successfully!");
         console.log("Profile updated successfully:", resp);
 
-        if (resp.email !== values.email) {
+        if (resp.email !== user?.email) {
           toast.success("Please verify your new email address.", {
             description:
               "A verification email has been sent to your new email address.",
           });
         }
 
-        setUser({
-          ...user,
-          username: resp.username,
-          email: resp.email,
-          emailVerified: resp.emailVerified,
-          profile: {
-            ...user?.profile,
-            avatar: resp.avatar,
-          },
-        });
+        // Update the user with the response data
+        if (user) {
+          setUser({
+            ...user,
+            username: resp.username,
+            email: resp.email,
+            emailVerified: resp.emailVerified,
+            profile: {
+              ...user.profile,
+              avatar: resp.avatar,
+              // Make sure the id is preserved from the existing profile
+              id: user.profile.id,
+              userId: user.profile.userId,
+            },
+          });
+        }
       }
     } catch (error) {
       console.error("Error updating profile:", error);

@@ -2,9 +2,10 @@ import { createContext, useEffect, useState } from "react";
 import { removeAuthorization, setAuthorization } from "@/lib/clients/graphql";
 
 import Loader from "@/components/ui-custom/loader";
-import User from "@/services/users/user";
-import { toast } from "sonner";
-import { verifyUser } from "@/services/users";
+import { TopProgress } from '@/components/ui-custom/top-loader';
+import User from '@/services/users/user';
+import { toast } from 'sonner';
+import { verifyUser } from '@/services/users';
 
 type AuthContextType = {
   user: User | null;
@@ -16,9 +17,7 @@ type AuthContextType = {
   setUser: (user: User | null) => void;
 };
 
-export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType,
-);
+export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -33,13 +32,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsAuthenticated(true);
 
     if (!user.emailVerified) {
-      toast.info("Please verify your email address to access all features.", {
+      toast.info('Please verify your email address to access all features.', {
         description: "Check your spam folder if you don't see the email.",
-        duration: 5000,
+        duration: 5000
       });
     }
 
-    localStorage.setItem("token", token);
+    localStorage.setItem('token', token);
   }
 
   async function logout() {
@@ -47,11 +46,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
     setIsAuthenticated(false);
     removeAuthorization();
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
   }
 
   async function verify() {
-    const localStorageToken = localStorage.getItem("token");
+    const localStorageToken = localStorage.getItem('token');
 
     if (!localStorageToken) {
       setIsLoading(false);
@@ -78,9 +77,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   if (isLoading) {
+    // return (
+    //   <div className="flex-grow h-screen grid place-items-center">
+    //     <Loader />
+    //   </div>
+    // );
     return (
-      <div className="flex-grow h-screen grid place-items-center">
-        <Loader message="Authenticating..." />
+      <div>
+        <TopProgress />
+        <span>loading......</span>
       </div>
     );
   }
@@ -94,7 +99,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isLoading,
         login,
         logout,
-        verify,
+        verify
       }}
     >
       {children}

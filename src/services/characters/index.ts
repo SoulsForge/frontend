@@ -1,8 +1,10 @@
 import { BaseCharacter } from "@/lib/types";
+import SummaryCharacter from '../timeline/summary-character';
 import client from "@/lib/clients/graphql";
 import createCharacterMutation from "./mutations/createCharacterMutation";
 import getCharacterByIdQuery from "./queries/getCharacterByIdQuery";
 import getCharacterByUserIdQuery from "./queries/getCharactersByUserIdQuery";
+import getCharactersBySearchQuery from './queries/getCharactyersBySearchQuery';
 import updateCharacterByIdMutation from "./mutations/updateCharacterByIdMutation";
 
 export async function getCharacterById(id: string): Promise<BaseCharacter> {
@@ -42,4 +44,9 @@ export async function createCharacter(
   });
 
   return response as BaseCharacter;
+}
+
+export async function searchCharacters(q: string): Promise<SummaryCharacter[]> {
+  const response = await client.fetch(getCharactersBySearchQuery, { q });
+  return response as SummaryCharacter[];
 }
